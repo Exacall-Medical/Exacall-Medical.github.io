@@ -1,6 +1,6 @@
 // Network first, so every update you upload reaches people right away;
 // falls back to the saved copy when there is no internet.
-const CACHE = "med-guide-v3";
+const CACHE = "med-guide-v5";
 const FILES = ["./", "./index.html", "./manifest.webmanifest", "./welcome.jpg", "./logo.png", "./icon-180.png", "./icon-192.png", "./icon-512.png"];
 
 self.addEventListener("install", e => {
