@@ -2,6 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
+<style>html,body{background:#F4EDFD;margin:0}</style>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#8201DC">
 <title>Exacall — دليل الشبكة الطبية</title>
@@ -15,7 +16,8 @@
 <meta name="apple-mobile-web-app-title" content="Exacall">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet"></noscript>
 <style>
 :root{
   --bg:#F6F3FA; --surface:#FFFFFF; --ink:#1F1530; --muted:#6B5F7B; --line:#E3DAEE;
@@ -54,18 +56,24 @@ button,select,input{font:inherit;color:inherit}
 /* ---------- welcome screen (the ExaCall image) ---------- */
 .splash{position:fixed;inset:0;z-index:100;overflow:hidden;background:linear-gradient(180deg,#F1E6FE,#F8F3FF 45%,#EBDCFD);transition:opacity .6s ease,visibility .6s}
 .splash.gone{opacity:0;visibility:hidden}
-/* soft fill around the picture on screens with a different shape, so the whole picture (and the logo) always shows */
-.splash::before{content:"";position:absolute;inset:-60px;background:url(welcome.jpg) center/cover no-repeat;filter:blur(30px);opacity:.85}
-/* the frame keeps the picture's proportions, so the button area always sits exactly on the drawn button */
-.w-frame{--r:0.5631;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);aspect-ratio:941/1671;
-  width:min(100vw, calc(100vh * var(--r)))}
-@supports (height:100dvh){.w-frame{width:min(100vw, calc(100dvh * var(--r)))}}
-@media (max-aspect-ratio: 941/1671){
-  .w-frame{top:auto;bottom:0;transform:translateX(-50%);width:clamp(100vw, calc(100vh * var(--r)), 106vw)}
-  .splash::before{background-position:center top}
-  @supports (height:100dvh){.w-frame{width:clamp(100vw, calc(100dvh * var(--r)), 106vw)}}
+/* the frame keeps the picture's proportions, so the button area always sits exactly on the drawn button.
+   --fw is the frame width; the logo is a separate layer kept fully inside the screen. */
+.w-frame{--r:0.5631;--fw:min(100vw, calc(100vh * var(--r)));position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);aspect-ratio:941/1671;width:var(--fw)}
+@supports (height:100dvh){.w-frame{--fw:min(100vw, calc(100dvh * var(--r)))}}
+/* phones a little wider than the picture: fill the screen, trimming only a sliver of the top and bottom waves */
+@media (min-aspect-ratio: 941/1671) and (max-aspect-ratio: 62/100){
+  .w-frame{--fw:100vw}
+  @supports (height:100dvh){.w-frame{--fw:100vw}}
 }
+/* phones taller than the picture: fill the screen edge to edge, trimming only the plain side margins */
+@media (max-aspect-ratio: 941/1671){
+  .w-frame{top:auto;bottom:0;transform:translateX(-50%);--fw:min(calc(100vh * var(--r)), 128vw)}
+  @supports (height:100dvh){.w-frame{--fw:min(calc(100dvh * var(--r)), 128vw)}}
+}
+.w-frame{background:url(data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAA0JCgsKCA0LCgsODg0PEyAVExISEyccHhcgLikxMC4pLSwzOko+MzZGNywtQFdBRkxOUlNSMj5aYVpQYEpRUk//2wBDAQ4ODhMREyYVFSZPNS01T09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0//wAARCAA1AB4DASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDpYtL/ALTmZ52dbRThIwcF/c1sWml2NnzbWsUZ9VXn8+tWIUCIFUYAFZWr61DpbSm4lk8xVDpEgABTcFySR1zziut1KlV8kXp2NnKU3ZGttA7Uhqtp92l4JXgmaaJGKbnGCGHUe46c1ZNYtNOzM2rDh0rMv7GS9crPYWk8W8MA8jDPGM4x1xWiyB1wc/hUElrGqFjFNIcgn52yT+dKLswQzToZ7dDHJb28SBQqeW7HAHQcjoKttUP2WPr5bjnP3jx+tSkbQAO1F7u4FXULq0tYlN5dRwK+QN7Yz9KxBdaRnH9tW59sH/GtfU9GsNWWI30bMYclGVyhX15H0rBudD0C3dJLW2u55Hw29Lh8AEdc9f8A9ddNJU5Kzvf5GkFFrW5aS+0lXQnWbdlBzg7hk/nW7BLFNbpLDKssbDKupyDXPQeHfD98iGWO6WRjgJLcPndjJA5rbtorLTLWOzt9scUYwq5Jx35NTUUNo3v5iko7K55/f+ItRS6kSKUptOOKdbeMtQt12zQ21wno6YP5iiivoPYUnFJxR6LhFq1ixN42uJMGOxgjY99xNYd/rF7dyZmmJA6KvCj6AUUVKoU6fwojkUdj/9k=) center/100% 100% no-repeat}
 .w-frame img{display:block;width:100%;height:100%}
+.w-frame .w-logo{position:absolute;top:max(2.93%, calc((var(--fw) / var(--r) - 100vh) / 2 + 2.2vh));width:17.32%;height:auto;pointer-events:none;
+  right:max(4.6%, calc((var(--fw) - 100vw) / 2 + 4vw))}
 .w-enter{position:absolute;left:12.6%;top:72.4%;width:74.4%;height:7.4%;border:0;border-radius:999px;background:transparent;cursor:pointer;padding:0;
   -webkit-tap-highlight-color:transparent;transition:transform .12s ease,background .12s ease,box-shadow .12s ease}
 .w-enter:hover{box-shadow:0 0 0 3px rgba(130,1,220,.25)}
@@ -184,6 +192,7 @@ footer .ref{color:var(--gold);font-size:.85rem;margin:2px 0 0}
 <div class="splash" id="splash" role="dialog" aria-modal="true" aria-label="مرحبًا بك في دليل ExaCall">
   <div class="w-frame">
     <img src="welcome.jpg" width="941" height="1671" alt="عائلة واحدة. وَإِذَا مَرِضْتُ فَهُوَ يَشْفِينِ. نتمنى لكم الشفاء العاجل ودوام الصحة والعافية.">
+    <img class="w-logo" src="logo-mark.png" width="163" height="171" alt="ExaCall">
     <button class="w-enter" type="button" id="enterBtn" aria-label="دخول إلى الدليل"></button>
   </div>
 </div>
